@@ -1,0 +1,14 @@
+# Set the Application Environment - Should reflect the relevant section name used in ini configuration files
+SetEnv APPLICATION_ENV staging
+
+# Rewrite Rules for Zend Framework
+RewriteEngine On
+RewriteRule !alternate.php|.(js|css|ico|gif|jpg|png|xml|xsl|eot|svg|ttf|woff|mp3|csv)$ index.php
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+
+# Security: Do not allow Browsing of Directories
+Options -Indexes
