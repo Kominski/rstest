@@ -7,13 +7,13 @@ class Kwgldev_AccountController extends Kwgl_Controller_Action {
 	public function init () {
 		parent::init();
 
-		$this->view->headLink()->appendStylesheet('/min?g=cssBase');
+		$this->view->headLink()->appendStylesheet('/min/?g=cssBase');
 		$this->view->headLink()->appendStylesheet('/css/library/bootstrap/bootstrap.css');
 		$this->view->headLink()->appendStylesheet('/css/kwgldev/style.css');
 		$this->view->headLink()->appendStylesheet('/css/kwgldev/account.css');
 
-		$this->view->headScript()->appendFile('/min?g=jsCore');
-		$this->view->headScript()->appendFile('/min?g=jsViews');
+		$this->view->headScript()->appendFile('/min/?g=jsCore');
+		$this->view->headScript()->appendFile('/min/?g=jsViews');
 		$this->view->headScript()->appendFile('/js/library/bootstrap.js');
 
 //		$this->view->headScript()->appendFile('/tmpl/pagination.tmpl', 'text/x-jsrender', array('id' => 'iTemplateBasePagination'));

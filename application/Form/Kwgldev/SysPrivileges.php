@@ -32,14 +32,14 @@ class Form_Kwgldev_SysPrivileges extends Form_Kwgldev_Base {
 				$oResource->setAttrib('readonly', true);
 				$oResource->setAttrib('disable', true);
 				$oSubmit->setLabel('Create')
-						->setAttrib('class', 'cButton cButtonSuccess');
+						->setAttrib('class', 'btn btn-success');
 				$this->addElements($aCreateElements);
 				break;
 			case self::CONTEXT_UPDATE:
 				$oResource->setAttrib('readonly', true);
 				$oResource->setAttrib('disable', true);
 				$oSubmit->setLabel('Update')
-						->setAttrib('class', 'cButton cButtonSuccess');
+						->setAttrib('class', 'btn btn-success');
 				$this->addElements($aUpdateElements);
 				break;
 			case self::CONTEXT_DELETE:
@@ -48,13 +48,10 @@ class Form_Kwgldev_SysPrivileges extends Form_Kwgldev_Base {
 				$oPrivilegeName->setAttrib('readonly', true);
 				$oPrivilegeName->setAttrib('disable', true);
 				$oSubmit->setLabel('Delete')
-						->setAttrib('class', 'cButton cButtonDanger');
+						->setAttrib('class', 'btn btn-danger');
 				$this->addElements($aDeleteElements);
 				break;
 		}
-
-
-		$this->_sViewScript = '/forms/partials/generic_twocolumn.phtml';
 
 		$this->setDecorators(array(array('ViewScript', array('viewScript' => $this->_sViewScript))));
 

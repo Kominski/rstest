@@ -32,13 +32,13 @@ class Form_Kwgldev_SysRoles extends Form_Kwgldev_Base {
 			case self::CONTEXT_CREATE:
 				$oRoleName->setRequired();
 				$oSubmit->setLabel('Create')
-						->setAttrib('class', 'cButton cButtonSuccess');
+						->setAttrib('class', 'btn btn-success');
 				$this->addElements($aCreateElements);
 				break;
 			case self::CONTEXT_UPDATE:
 				$oRoleName->setRequired();
 				$oSubmit->setLabel('Update')
-						->setAttrib('class', 'cButton cButtonSuccess');
+						->setAttrib('class', 'btn btn-success');
 				$this->addElements($aUpdateElements);
 				break;
 			case self::CONTEXT_DELETE:
@@ -47,12 +47,10 @@ class Form_Kwgldev_SysRoles extends Form_Kwgldev_Base {
 				$oRoleParent->setAttrib('readonly', true);
 				$oRoleParent->setAttrib('disable', true);
 				$oSubmit->setLabel('Delete')
-						->setAttrib('class', 'cButton cButtonDanger');
+						->setAttrib('class', 'btn btn-danger');
 				$this->addElements($aDeleteElements);
 				break;
 		}
-
-		$this->_sViewScript = '/forms/partials/generic_twocolumn.phtml';
 
 		$this->setDecorators(array(array('ViewScript', array('viewScript' => $this->_sViewScript))));
 

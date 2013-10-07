@@ -10,12 +10,12 @@ class Kwgldev_LogsController extends Kwgl_Controller_Action {
 	public function init () {
 		parent::init();
 
-		$this->view->headLink()->appendStylesheet('/min?g=cssBase');
+		$this->view->headLink()->appendStylesheet('/min/?g=cssBase');
 		$this->view->headLink()->appendStylesheet('/css/library/bootstrap/bootstrap.css');
 		$this->view->headLink()->appendStylesheet('/css/kwgldev/style.css');
 		$this->view->headLink()->appendStylesheet('/css/kwgldev/log.css');
 
-		$this->view->headScript()->appendFile('/min?g=jsCore');
+		$this->view->headScript()->appendFile('/min/?g=jsCore');
 		$this->view->headScript()->appendFile('/js/library/bootstrap.js');
 	}
 
@@ -123,6 +123,12 @@ class Kwgldev_LogsController extends Kwgl_Controller_Action {
 		} // while (false !== ($sYearLevelEntry = readdir($rDirectory)))
 
 //		Zend_Debug::dump($aLogFileList);
+
+		if (count($aLogFileList) == 0) {
+			Model_Kwgldev_Response::addResponse(
+					'No Log Files have been found.',
+					Model_Kwgldev_Response::STATUS_INFORMATION);
+		}
 
 		$aContent['log-file-list'] =  $aLogFileList;
 		$this->view->aContent = $aContent;

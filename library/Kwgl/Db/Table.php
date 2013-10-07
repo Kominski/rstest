@@ -50,6 +50,15 @@ class Kwgl_Db_Table extends Zend_Db_Table_Abstract {
 
 		//set configurations
 		parent::__construct($aTableConf);
+
+		// 2012-06-28 : Jayawi Perera
+		// Added Database Metadata Caching
+		if (Kwgl_Config::get(array('mode', 'cache', 'dbmetadata')) == 1) {
+			$oCacheManager = Kwgl_Cache::getManager();
+			$oDatabaseMetadataCache = $oCacheManager->getCache('dbmetadata');
+			Zend_Db_Table_Abstract::setDefaultMetadataCache($oDatabaseMetadataCache);
+		}
+
 	}
 
 	/**

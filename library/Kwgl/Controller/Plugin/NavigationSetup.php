@@ -11,6 +11,8 @@ class Kwgl_Controller_Plugin_NavigationSetup extends Zend_Controller_Plugin_Abst
 
 	public function preDispatch (Zend_Controller_Request_Abstract $oRequest) {
 
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_NavigationSetup - preDispatch - Start');
+
 		$oNavigationConfiguration = $this->_getNavigationConfiguration($oRequest);
 
 		if (!is_null($oNavigationConfiguration)) {
@@ -21,7 +23,8 @@ class Kwgl_Controller_Plugin_NavigationSetup extends Zend_Controller_Plugin_Abst
 			switch ($sModule) {
 				case 'kwgldev':
 
-					if (is_null(Zend_Auth::getInstance()->getIdentity())) {
+					//if (is_null(Zend_Auth::getInstance()->getIdentity())) {
+					if (is_null(Kwgl_User::get())) {
 						$oLogoutNavigationEntry = $oNavigationContainer->findOneBy('label', 'my-account'); /* @var $oLogoutNavigationEntry Zend_Navigation_Page_Uri */
 						$oNavigationContainer->removePage($oLogoutNavigationEntry);
 					}
@@ -37,6 +40,8 @@ class Kwgl_Controller_Plugin_NavigationSetup extends Zend_Controller_Plugin_Abst
 			$oView->navigation($oNavigationContainer);
 		}
 
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_NavigationSetup - preDispatch - End');
+
 	}
 
 	/**
@@ -47,9 +52,9 @@ class Kwgl_Controller_Plugin_NavigationSetup extends Zend_Controller_Plugin_Abst
 	 */
 	protected function _getNavigationConfiguration ($oRequest) {
 
-		$sModule = $sModuleName = $oRequest->getModuleName();
+		$sModuleName = $oRequest->getModuleName();
 
-		$sNavigationXmlPath = Kwgl_Config::get(array('paths', 'config')) . 'navigation_' . $sModule . '.xml';
+		$sNavigationXmlPath = Kwgl_Config::get(array('paths', 'config')) . 'navigation_' . $sModuleName . '.xml';
 
 		if (file_exists($sNavigationXmlPath)) {
 

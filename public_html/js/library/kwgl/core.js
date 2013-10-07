@@ -33,10 +33,22 @@ var Kwgl = {
 	/**
 	 * Outputs to the Console Window if the Console is available
 	 *
-	 * @param oObjectToLog
+	 * @author Jayawi Perera <jayawiperera@gmail.com>
+	 * @param mObjectToLog
 	 */
-	log: function (oObjectToLog) {
-		window.console && console.log(oObjectToLog);
+	log: function (mObjectToLog) {
+
+		if (window.console) {
+
+			var iArgumentCount = arguments.length;
+
+			for (var iCounter = 0; iCounter < iArgumentCount; iCounter++) {
+				console.log(arguments[iCounter]);
+			}
+
+		}
+
+		//window.console && console.log(mObjectToLog);
 	}
 
 };

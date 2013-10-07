@@ -82,13 +82,16 @@ class Kwgl_Authenticate {
 	}
 
 	/**
-	 * Carry out Login for given Username / Password and optional Role combination
+	 * Carry out Login for given Username / Password and optional conditions
+	 * Auto Login - ?
+	 *
 	 * @param string $sIdentity
 	 * @param string $sCredential
 	 * @param boolean $bAutoLogin
+	 * @param array $aWhereClause
 	 * @return boolean
 	 */
-	public static function login ($sIdentity, $sCredential, $bAutoLogin = false) {
+	public static function login ($sIdentity, $sCredential, $bAutoLogin = false, $aWhereClause = null) {
 		if ($bAutoLogin) {
 			$iRememberMeDuration = self::$aAuthConfig['remember']['duration'];
 			Zend_Session::rememberMe($iRememberMeDuration);
@@ -118,6 +121,14 @@ class Kwgl_Authenticate {
 				$sAuthenticatingTable = 'sys_account';
 			}
 
+			$sCombinedClause = '';
+			if (!empty($aWhereClause)) {
+				// Combine Where Conditions
+				foreach ($aWhereClause as $sCondition) {
+					$sCombinedClause .= ' AND (' . $sCondition . ')';
+				}
+			}
+
 			$oDb = Zend_Registry::get(DB);
 			$oAuthenticateAdapter = new Zend_Auth_Adapter_DbTable($oDb);
 			$oAuthenticateAdapter->setTableName($sAuthenticatingTable);
@@ -126,7 +137,7 @@ class Kwgl_Authenticate {
 			$oAuthenticateAdapter->setIdentity($sIdentity);
 
 			$oAuthenticateAdapter->setCredentialColumn($sCredentialField);
-			$oAuthenticateAdapter->setCredentialTreatment('UNHEX(SHA1(?))');
+			$oAuthenticateAdapter->setCredentialTreatment('UNHEX(SHA1(?))' . $sCombinedClause);
 			$oAuthenticateAdapter->setCredential($sCredential);
 
 			$oAuthenticateResult = self::$_oAuthenticate->authenticate($oAuthenticateAdapter);
@@ -178,7 +189,8 @@ class Kwgl_Authenticate {
 			return true;
 		}
 
-		$aIdentity = Zend_Auth::getInstance()->getIdentity();
+		//$aIdentity = Zend_Auth::getInstance()->getIdentity();
+		$aIdentity = Kwgl_User::getIdentity();
 
 		if ($bBrowserCheck) {
 			$sUserAgentHash = md5($_SERVER['HTTP_USER_AGENT']);
@@ -208,6 +220,62 @@ class Kwgl_Authenticate {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Determines if the current request should be considered as an exception for Authentication and Access Control Purposes
+	 *
+	 * @param boolean $bReturnExceptionType
+	 * @return boolean
+	 */
+	public static function isExceptionRequest ($bReturnExceptionType = false) {
+
+		$sModuleName = Kwgl_Utility_Mvc::getModule();
+		$sControllerName = Kwgl_Utility_Mvc::getController();
+		$sActionName = Kwgl_Utility_Mvc::getAction();
+
+		$aExceptionGroups = array();
+		if (isset(self::$aAuthConfig['exceptions'])) {
+			$aExceptionGroups = self::$aAuthConfig['exceptions'];
+		}
+
+		$sExceptionType = null;
+		$bIsException = false;
+
+		foreach ($aExceptionGroups as $sIdentifier => $aExceptionGroup) {
+
+			$aExceptionConditions = array();
+			if (isset($aExceptionGroup['conditions'])) {
+				$aExceptionConditions = $aExceptionGroup['conditions'];
+				
+				foreach ($aExceptionConditions as $aExceptionCondition) {
+					if (
+						$aExceptionCondition['module'] == $sModuleName
+								&&
+						$aExceptionCondition['controller'] == $sControllerName
+								&&
+						$aExceptionCondition['action'] == $sActionName
+					) {
+						$sExceptionType = $sIdentifier;
+						$bIsException = true;
+						break 2;
+					}
+				}
+			}
+
+		}
+
+		$bIsExceptionRequest = false;
+		$aParameterKeys = Kwgl_Utility_Mvc::getParameterKeys();
+		if ($bIsException && in_array($aExceptionGroups[$sExceptionType]['token_name'], $aParameterKeys)) {
+			$bIsExceptionRequest = true;
+		}
+
+		if ($bIsExceptionRequest && $bReturnExceptionType) {
+			return $sExceptionType;
+		}
+		return $bIsExceptionRequest;
+
 	}
 
 }

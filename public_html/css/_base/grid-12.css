@@ -3,22 +3,22 @@
 	width: 950px;
 	margin: 0 auto;
 }
-.cGrid-01,
-.cGrid-02,
-.cGrid-03,
-.cGrid-04,
-.cGrid-05,
-.cGrid-06,
-.cGrid-07,
-.cGrid-08,
-.cGrid-09,
-.cGrid-10,
-.cGrid-11,
-.cGrid-12 {
+.cContainer-12 .cGrid-01,
+.cContainer-12 .cGrid-02,
+.cContainer-12 .cGrid-03,
+.cContainer-12 .cGrid-04,
+.cContainer-12 .cGrid-05,
+.cContainer-12 .cGrid-06,
+.cContainer-12 .cGrid-07,
+.cContainer-12 .cGrid-08,
+.cContainer-12 .cGrid-09,
+.cContainer-12 .cGrid-10,
+.cContainer-12 .cGrid-11,
+.cContainer-12 .cGrid-12 {
 	float: left;
 	margin-right: 20px;
 }
-.cLast {
+.cContainer-12 .cLast {
 	margin-right: 0;
 }
 .cContainer-12 .cGrid-01 {

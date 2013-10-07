@@ -7,19 +7,19 @@ if (isset($aContent['listing'])) {
 }
 ?>
 
-<div class="cPageHeader">
+<div class="page-header">
   <h1>Mail Templates</h1>
 </div>
 
 <?php echo $this->response(); ?>
 
-<table class="cTable cTableStriped cTableBordered">
+<table class="table table-striped table-bordered">
 	<thead>
 		<tr>
 			<th>Name</th>
 			<th>Subject</th>
 			<th class="cAlignCenter" colspan="2">
-				<a href="<?php echo $this->url(array('action' => 'create')); ?>" class="cButton cButtonSuccess"><i class="cIconWhite cIconAsterisk"></i> Create</a>
+				<a href="<?php echo $this->url(array('action' => 'create')); ?>" class="btn btn-success"><i class="icon-white icon-asterisk"></i> Create</a>
 			</th>
 		</tr>
 	</thead>
@@ -33,8 +33,8 @@ if (isset($aContent['listing'])) {
 			<th class="cAlignLeft"><?php echo $aMailTemplateDetail['name']; ?></th>
 			<th class="cAlignLeft"><?php echo $aMailTemplateDetail['subject']; ?></th>
 			<td class="cAlignCenter">
-				<a href="<?php echo $this->url(array('action' => 'update', 'id' => $sId,)); ?>" class="cButton cButtonWarning"><i class="cIconWhite cIconPencil"></i> Update</a>
-				<a href="<?php echo $this->url(array('action' => 'delete', 'id' => $sId,)); ?>" class="cButton cButtonDanger"><i class="cIconWhite cIconTrash"></i> Delete</a>
+				<a href="<?php echo $this->url(array('action' => 'update', 'id' => $sId,)); ?>" class="btn btn-warning"><i class="icon-white icon-pencil"></i> Update</a>
+				<a href="<?php echo $this->url(array('action' => 'delete', 'id' => $sId,)); ?>" class="btn btn-danger"><i class="icon-white icon-trash"></i> Delete</a>
 			</td>
 		</tr>
 <?php

@@ -9,24 +9,31 @@
 class Kwgl_LogXml {
 
 	/**
-	 *
+	 * A Log Entry related to the Application
 	 */
 	const TYPE_APP = 'app';
+
+	/**
+	 * A Log Entry related to the Database
+	 */
 	const TYPE_DB = 'db';
 
 	/**
+	 * Nature of the Log Entry, whether Application or Database
 	 *
 	 * @var string
 	 */
 	protected $_sType = '';
 
 	/**
+	 * The location of the XML Log File
 	 *
 	 * @var string
 	 */
 	protected $_sFilePath = '';
 
 	/**
+	 * Resource Handle for the XML Log File
 	 *
 	 * @var object
 	 */

@@ -3,6 +3,10 @@
 // To use Application specific Error Reporting Level then onwards.
 error_reporting(E_ALL);
 
+// Use ONLY if you want a full Benchmark. To be commented out in Production environments
+//require_once('../library/Kwgl/Benchmark.php');
+//Kwgl_Benchmark::initialise(true, false);
+
 // Define the Path to the Application Directory
 if (!defined('APPLICATION_PATH')) {
 	define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
@@ -14,7 +18,6 @@ defined('APPLICATION_ENV')
 
 // Set Include Path
 $aIncludePath = array(
-	realpath('/usr/share/php/libzend-framework-php/'),
 	realpath(APPLICATION_PATH . '/../library/'),
     get_include_path(),
 );
@@ -35,8 +38,8 @@ try {
 	if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) {
 		ob_start();
 		$oBootstrap->run();
-		Kwgl_Benchmark::stop();
-		Kwgl_Benchmark::displayStyled(true);
+//		Kwgl_Benchmark::stop();
+//		Kwgl_Benchmark::displayStyled(true);
 		$sOutput = gzencode(ob_get_contents(), 1);
 		ob_end_clean();
 		header('Content-Encoding: gzip');
@@ -44,12 +47,13 @@ try {
 	}
 	else {
 		$oBootstrap->run();
-		Kwgl_Benchmark::stop();
-		Kwgl_Benchmark::displayStyled(true);
+//		Kwgl_Benchmark::stop();
+//		Kwgl_Benchmark::displayStyled(true);
 	}
 } catch (Exception $oException) {
     echo $oException->getMessage();
     echo '<br /><pre>' . $oException->getTraceAsString() . '</pre>';
 }
-
+//Kwgl_Benchmark::stop();
+//Kwgl_Benchmark::displayStyled(true);
 ?>

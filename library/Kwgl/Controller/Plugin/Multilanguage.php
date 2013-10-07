@@ -2,7 +2,7 @@
 /**
  * Adds multilanguage support
  *
- * @author Darshan Wijekoon <>
+ * @author Darshan Wijekoon <darshanchaturanga@gmail.com>
  * @category PHP-Kwgl
  * @package Kwgl_Controller
  * @subpackage Plugin
@@ -11,7 +11,9 @@ class Kwgl_Controller_Plugin_Multilanguage extends Zend_Controller_Plugin_Abstra
 
 	private $oLocale;
 
-	public function routeStartup(Zend_Controller_Request_Abstract $oRequest) {
+	public function routeStartup (Zend_Controller_Request_Abstract $oRequest) {
+
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_Multilanguage - routeStartup- Start');
 
 		$this->oLocale = new Zend_Locale(Kwgl_Language::DEFAULT_LOCALE);
 
@@ -21,6 +23,8 @@ class Kwgl_Controller_Plugin_Multilanguage extends Zend_Controller_Plugin_Abstra
 		$this->initTranslationAdapter();
 
 		$this->initFormValidationMsgTranslator();
+
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_Multilanguage - routeStartup - End');
 	}
 
 	/**
@@ -28,21 +32,10 @@ class Kwgl_Controller_Plugin_Multilanguage extends Zend_Controller_Plugin_Abstra
 	 * adapter for translating all static content including text, form labels, button labels, titles, etc.
 	 * It is set as the default translator for the application automatically by setting it in the registry.
 	 */
-	private function initTranslationAdapter() {
+	private function initTranslationAdapter () {
 
-		// attach a cache for translation data when in production
-		if (APPLICATION_ENV === 'production') {
-//			$aFrontEndCachingOptions = array(
-//				'lifetime' => 7200, // cache is considered fresh for 2 hours
-//				'automatic_serialization' => true // files can be directly saved in the cache
-//			);
-//			$aBackEndCachingOptions = array(
-//				'cache_dir' => preg_replace('/^\\d+;/', '', session_save_path()) // Directory where to put the cache files
-//			);
-//			// getting a Zend_Cache_Core object
-//			$oTranslationsCache = Zend_Cache::factory('Core', 'File', $aFrontEndCachingOptions, $aBackEndCachingOptions);
-//
-//			Zend_Translate::setCache($oTranslationsCache);
+		// Attach Cache if it's enabled for the current environment
+		if (Kwgl_Config::get(array('mode', 'cache', 'translations')) == 1) {
 			$oCacheManager = Kwgl_Cache::getManager();
 			$oTranslationsCache = $oCacheManager->getCache('translations');
 			Zend_Translate::setCache($oTranslationsCache);
@@ -52,7 +45,7 @@ class Kwgl_Controller_Plugin_Multilanguage extends Zend_Controller_Plugin_Abstra
 			$oTranslate = new Zend_Translate(
 				array(
 					'adapter' => 'Kwgl_Translate_Adapter_DbTable',
-					'content' => 'some content'
+					'content' => 'some content',
 				)
 			);
 		} catch (Exception $e) {
@@ -86,5 +79,5 @@ class Kwgl_Controller_Plugin_Multilanguage extends Zend_Controller_Plugin_Abstra
 		// attach the validator to Zend_Validate module
 		Zend_Validate::setDefaultTranslator($oTranslate);
 	}
-	
+
 }

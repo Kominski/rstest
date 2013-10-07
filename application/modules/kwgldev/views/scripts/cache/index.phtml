@@ -3,7 +3,7 @@ $aContent = $this->aContent;
 $aCacheManagerList = $aContent['cache-list'];
 ?>
 
-<div class="cPageHeader">
+<div class="page-header">
   <h1>Cache Management</h1>
 </div>
 
@@ -12,7 +12,7 @@ $aCacheManagerList = $aContent['cache-list'];
 <?php
 if (!empty($aCacheManagerList)) {
 ?>
-<table class="cTable cTableStriped cTableBordered">
+<table class="table table-striped table-bordered">
 	<thead>
 		<tr>
 			<th>Cache Name</th>
@@ -31,7 +31,7 @@ if (!empty($aCacheManagerList)) {
 			<td><?php echo $sCacheName; ?></td>
 			<td><?php echo $sCacheDirectory; ?></td>
 			<td><?php echo $sCacheLifeTime; ?>s</td>
-			<td><a href="<?php echo $this->url(array('cache' => $sCacheName, 'operation' => 'clear')); ?>" class="cButton cButtonDanger"><i class="cIconWhite cIconTrash"></i> Clear</a></td>
+			<td><a href="<?php echo $this->url(array('cache' => $sCacheName, 'operation' => 'clear')); ?>" class="btn btn-danger"><i class="icon-white icon-trash"></i> Clear</a></td>
 		</tr>
 <?php
 		}

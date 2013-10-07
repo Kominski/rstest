@@ -1,6 +1,7 @@
 <?php
 /**
  * Provides utility-based logged in user functionality
+ * 
  * @author Jayawi Perera <jayawiperera@gmail.com>
  * @category PHP-Kwgl
  * @package Kwgl_User
@@ -19,7 +20,8 @@ class Kwgl_User {
 	 *
 	 * @var array
 	 */
-	protected static $_aIdentity = null;
+//	protected static $_aIdentity = null;
+	protected static $_aIdentity = false;
 
 	/**
 	 * Static User Details
@@ -70,7 +72,8 @@ class Kwgl_User {
 		}
 
 		// Fetch the Identity Data if it has not yet been assigned or if a 'fresh' one is required
-		if (is_null(self::$_aIdentity) || $bFresh) {
+//		if (is_null(self::$_aIdentity) || $bFresh) {
+		if (self::isIdentityNotSet() || $bFresh) {
 			self::$_aIdentity = self::$_oZendAuthInstance->getIdentity();
 		}
 
@@ -94,6 +97,32 @@ class Kwgl_User {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Returns the Zend Auth Identity
+	 *
+	 * @param string $sField To indicate if a specified field from the Identity should be returned instead
+	 * @param boolean $bFresh To indicate is static data should be re-initialised to ensure they are current
+	 * @return array|mixed
+	 */
+	public static function getIdentity ($sField = null, $bFresh = false) {
+
+		self::initialise($bFresh);
+		$mDetail = null;
+
+		if (!self::isIdentityNotSet()) {
+			if (is_null($sField)) {
+				$mDetail = self::$_aIdentity;
+			} else {
+				if (isset(self::$_aIdentity[$sField])) {
+					$mDetail = self::$_aIdentity[$sField];
+				}
+			}
+		}
+
+		return $mDetail;
+
 	}
 
 	/**
@@ -282,4 +311,14 @@ class Kwgl_User {
 		return $bLoggedIn;
 	}
 
+
+	public static function isIdentityNotSet () {
+
+		if (self::$_aIdentity === false) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 }

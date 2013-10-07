@@ -11,11 +11,15 @@ class Kwgl_Controller_Plugin_AuthenticateSetup extends Zend_Controller_Plugin_Ab
 
 	public function preDispatch (Zend_Controller_Request_Abstract $oRequest) {
 
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_AuthenticateSetup - preDispatch - Start');
+
 		Kwgl_Authenticate::initialise();
 
-		$bVerified = Kwgl_Authenticate::verifySession();
-		if (!$bVerified) {
-			Kwgl_Authenticate::logout();
+		if (Kwgl_Authenticate::isExceptionRequest() === false) {
+			$bVerified = Kwgl_Authenticate::verifySession();
+			if (!$bVerified) {
+				Kwgl_Authenticate::logout();
+			}
 		}
 
 		$bAllowed = $this->_pageAclCheck($oRequest);
@@ -41,6 +45,8 @@ class Kwgl_Controller_Plugin_AuthenticateSetup extends Zend_Controller_Plugin_Ab
 				->setActionName('notallowed')
 				->setDispatched(false);
 		}
+
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_AuthenticateSetup - preDispatch - End');
 
 	}
 

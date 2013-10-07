@@ -11,6 +11,8 @@ class Kwgl_Controller_Plugin_ViewSetup extends Zend_Controller_Plugin_Abstract {
 
 	public function preDispatch (Zend_Controller_Request_Abstract $oRequest) {
 
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_ViewSetup - preDispatch - Start');
+
 		$sModuleName = $oRequest->getModuleName();
 
 		// Setup Module specific Layout
@@ -29,9 +31,13 @@ class Kwgl_Controller_Plugin_ViewSetup extends Zend_Controller_Plugin_Abstract {
 		$sModuleViewHelperClassPrefix = ucwords($sModuleName) . '_View_Helper';
 		$oView->addHelperPath($sModuleViewHelperPath, $sModuleViewHelperClassPrefix);
 
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_ViewSetup - preDispatch - End');
+
 	}
 
 	public function postDispatch (Zend_Controller_Request_Abstract $oRequest) {
+
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_ViewSetup - postDispatch - Start');
 
         // Check if AJAX Request is defined
         if (Kwgl_Ajax::hasResult()) {
@@ -39,6 +45,8 @@ class Kwgl_Controller_Plugin_ViewSetup extends Zend_Controller_Plugin_Abstract {
             // Print JSON Encoded AJAX Response
             echo Kwgl_Ajax::display();
         }
+
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_ViewSetup - postDispatch - End');
 
     }
 

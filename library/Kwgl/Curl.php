@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * 
+ */
 class Kwgl_Curl{
 
     private $oRequest;

@@ -7,9 +7,10 @@
  * For other cases, Zend_Filter_HtmlEntities or Zend_Filter_StripTags
  * should be used instead to filter & get rid of all HTML.
  *
- * @author Darshan Wijekoon <>
+ * @author Darshan Wijekoon <darshanchaturanga@gmail.com>
  * @category PHP-Kwgl
  * @package Kwgl_Filter
+ * @todo NOT YET FINALISED
  */
 class Kwgl_Filter_HtmlPurifier implements Zend_Filter_Interface {
 

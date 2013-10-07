@@ -4,7 +4,7 @@ $sDisplay = $aContent['display'];
 $oForm = $aContent['form'];
 ?>
 
-<div class="cPageHeader">
+<div class="page-header">
   <h1>Model Resources</h1>
 </div>
 
@@ -39,12 +39,12 @@ switch ($sDisplay) {
 		$aResources = $aContent['resources'];
 ?>
 <h2>List of Resources</h2>
-<table class="cTable cTableStriped cTableBordered">
+<table class="table table-striped table-bordered">
 	<thead>
 		<tr>
 			<th>Resource Name</th>
 			<th>Resource Parent</th>
-			<th colspan="2"><a href="<?php echo $this->url(array('operation' => 'create')); ?>" class="cButton cButtonSuccess"><i class="cIconWhite cIconAsterisk"></i> Create new model resource</a></th>
+			<th colspan="2"><a href="<?php echo $this->url(array('operation' => 'create')); ?>" class="btn btn-success"><i class="icon-white icon-asterisk"></i> Create new model resource</a></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -64,8 +64,8 @@ foreach ($aResources as $aResource) {
 			<td><?php echo $sResourceParent; ?></td>
 			<?php if ($bEditAllowed) { ?>
 			<td class="cAlignCenter" ><a href="<?php echo $this->url(array('action' => 'privileges', 'resourceid' => $sId, 'id' => null, 'operation' => null)); ?>"><img src="/img/kwgldev/_icons/key.png" alt="Manage Privileges" /> <span>Privileges</span></a></td>
-			<td class="cAlignCenter" ><a href="<?php echo $this->url(array('id' => $sId, 'operation' => 'update')); ?>" class="cButton cButtonWarning"><i class="cIconWhite cIconPencil"></i> Update</a></td>
-			<td class="cAlignCenter" ><a href="<?php echo $this->url(array('id' => $sId, 'operation' => 'delete')); ?>" class="cButton cButtonDanger"><i class="cIconWhite cIconTrash"></i> Delete</a></td>
+			<td class="cAlignCenter" ><a href="<?php echo $this->url(array('id' => $sId, 'operation' => 'update')); ?>" class="btn btn-warning"><i class="icon-white icon-pencil"></i> Update</a></td>
+			<td class="cAlignCenter" ><a href="<?php echo $this->url(array('id' => $sId, 'operation' => 'delete')); ?>" class="btn btn-danger"><i class="icon-white icon-trash"></i> Delete</a></td>
 			<?php } else { ?>
 			<td class="cAlignCenter" colspan="3">N/A</td>
 			<?php } ?>

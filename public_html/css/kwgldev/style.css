@@ -1,6 +1,9 @@
 #iDivNavigationContainer {
 	margin-top: 16px;
 }
+#iDivNavigationContainer .brand {
+	color: #FFFFFF;
+}
 #iDivBodyContainer {
 	margin-bottom: 16px;
 }

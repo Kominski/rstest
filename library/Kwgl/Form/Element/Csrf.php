@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of Csrf
+ * Customised Zend_Form_Element_Hash used for Cross Site Request Forgery prevention
  *
  * @author Jayawi Perera <jayawiperera@gmail.com>
  * @category PHP-Kwgl

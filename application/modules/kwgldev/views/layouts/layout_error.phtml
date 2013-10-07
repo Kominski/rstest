@@ -11,15 +11,15 @@
 	$aPartial = array('partials/navigation.phtml', 'kwgldev');
 	$this->navigation()->menu()->setPartial($aPartial);
 ?>
-		<div class="cContainer" id="iDivNavigationContainer">
-			<div class="cRow">
-				<div class="cSpan12 cNavigationBar"><?php echo $this->navigation()->menu()->render(); ?></div>
+		<div class="container" id="iDivNavigationContainer">
+			<div class="row">
+				<div class="span12 navbar navbar-inverse"><?php echo $this->navigation()->menu()->render(); ?></div>
 			</div>
 		</div>
 
-		<div class="cContainer" id="iDivBodyContainer">
-			<div class="cRow">
-				<div class="cSpan12"><?php echo $this->layout()->content; ?></div>
+		<div class="container" id="iDivBodyContainer">
+			<div class="row">
+				<div class="span12"><?php echo $this->layout()->content; ?></div>
 			</div>
 		</div>
 	</body>

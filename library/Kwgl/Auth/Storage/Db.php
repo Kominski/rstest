@@ -85,11 +85,10 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
 	 */
 	protected static $_sExpiryMode = 'access';
 
-
 	/**
 	 * Initialisation of Kwgl_AuthStorage
 	 *
-	 * @return void;
+	 * @return void
 	 */
 	public function __construct () {
 
@@ -113,17 +112,15 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
 	 */
 	public function isEmpty() {
 
-		$mWhereClause = null;
-
 		if (isset(self::$_sSessionID)) {
-			$mWhereClause[self::$_sSessionTablePrimary . ' = ?'] = self::$_sSessionID;
+			$mWhereClause = $this->_getDeterminantClause();
 		} else {
 			return true;
 		}
 
 		if (!is_null($mWhereClause)) {
 			try {
-				$aSessionListing = $this->_oDaoAuthStorage->fetchAll($mWhereClause);
+				$aSessionListing = self::$_oDaoAuthStorage->fetchAll($mWhereClause);
 				$iCount = $aSessionListing->count();
 
 				if ($iCount == 0) {
@@ -149,18 +146,18 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
      * Returns the Stored Session Contents from the Database. Behavior is undefined when storage is empty.
      *
      * @throws Zend_Auth_Storage_Exception If reading contents from storage is impossible
-     * @return array|mixed
+     * @return array|Zend_Db_Table_Row_Abstract
      */
 	public function read() {
 
-		$mWhereClause[self::$_sSessionTablePrimary . ' = ?'] = self::$_sSessionID;
+		$mWhereClause = $this->_getDeterminantClause();
 
 		try {
 			$aData = array();
 			$aData['timestamp_accessed'] = time();
-			$iRowsAffected = $this->_oDaoAuthStorage->update($aData, $mWhereClause);
+			$iRowsAffected = self::$_oDaoAuthStorage->update($aData, $mWhereClause);
 
-			$aSessionDetail = $this->_oDaoAuthStorage->fetchRow($mWhereClause);
+			$aSessionDetail = self::$_oDaoAuthStorage->fetchRow($mWhereClause);
 			return $aSessionDetail;
 		} catch (Exception $oException) {
 			throw new Zend_Auth_Storage_Exception();
@@ -171,8 +168,8 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
 	/**
      * Writes provided Data to the Database Session Storage.
      *
-     * @param  mixed $contents
-     * @throws Zend_Auth_Storage_Exception If writing $contents to storage is impossible
+     * @param  mixed $mContent
+     * @throws Zend_Auth_Storage_Exception If writing $mContent to storage is impossible
      * @return void
      */
 	public function write($mContent) {
@@ -214,21 +211,25 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
 
 				// Delete any Rows containing the same Session ID or Account ID
 				$this->clear();
-				$this->_oDaoAuthStorage->delete(array(self::$_sSessionTableAccountReferenceColumn . ' = ?' => $aAccountDetail[self::$_sAccountTablePrimary]));
+				self::$_oDaoAuthStorage->delete(array(self::$_sSessionTableAccountReferenceColumn . ' = ?' => $aAccountDetail[self::$_sAccountTablePrimary]));
 				// Insert if Empty
 				$aData = array();
+				// - Standard Data
 				$aData[self::$_sSessionTablePrimary] = self::$_sSessionID;
 				$aData[self::$_sSessionTableAccountReferenceColumn] = $aAccountDetail[self::$_sAccountTablePrimary];
 				$aData['hostname'] = Kwgl_Utility_Ip::getIp();
 				$aData['user_agent_hash'] = md5($_SERVER['HTTP_USER_AGENT']);
 				$aData['timestamp_created'] = time();
 				$aData['timestamp_accessed'] = time();
-				$iInsertID = $this->_oDaoAuthStorage->insert($aData);
+				// - Special Data
+				$aData[self::$aAuthConfig['exceptions']['flash']['column_name']] = md5(uniqid('kwglft', true));
+
+				$iInsertID = self::$_oDaoAuthStorage->insert($aData);
 			} else {
 				// Else Update
 				$aData = array();
 				$aData['timestamp_accessed'] = time();
-				$iRowsAffected = $this->_oDaoAuthStorage->update($aData, array(self::$_sSessionTablePrimary . ' = ?' => self::$_sSessionID));
+				$iRowsAffected = self::$_oDaoAuthStorage->update($aData, array(self::$_sSessionTablePrimary . ' = ?' => self::$_sSessionID));
 			}
 
 		} catch (Exception $oException) {
@@ -243,15 +244,15 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
      * @return void
      */
 	public function clear() {
-		$mWhereClause = null;
-		$mWhereClause[self::$_sSessionTablePrimary . ' = ?'] = self::$_sSessionID;
+
+		$mWhereClause = $this->_getDeterminantClause();
 
 		try {
 			try {
-				$oResult = $this->_oDaoAuthStorage->delete($mWhereClause);
+				$oResult = self::$_oDaoAuthStorage->delete($mWhereClause);
 			} catch (Exception $oException) {
 				Kwgl_Db::logException($oException);
-				return null;
+				return;
 			}
 		} catch (Exception $oException) {
 			throw new Zend_Auth_Storage_Exception();
@@ -271,7 +272,7 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
 			return;
 		}
 
-		$mWhereClause[self::$_sSessionTablePrimary . ' = ?'] = self::$_sSessionID;
+		$mWhereClause = $this->_getDeterminantClause();
 
 		$iTimestamp = time() - self::$_iExpiryDuration;
 		switch (self::$_sExpiryMode) {
@@ -287,10 +288,10 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
 
 		try {
 			try {
-				$oResult = $this->_oDaoAuthStorage->delete($mWhereClause);
+				$oResult = self::$_oDaoAuthStorage->delete($mWhereClause);
 			} catch (Exception $oException) {
 				Kwgl_Db::logException($oException);
-				return null;
+				return;
 			}
 		} catch (Exception $oException) {
 			throw new Zend_Auth_Storage_Exception();
@@ -300,10 +301,33 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
 	}
 
 	/**
+	 * Forms the WHERE clause depending on the request, exceptions, etc
+	 *
+	 * @return array
+	 */
+	private function _getDeterminantClause () {
+
+		$aClause = array(
+			self::$_sSessionTablePrimary . ' = ?' => self::$_sSessionID,
+		);
+
+		$mIsException = Kwgl_Authenticate::isExceptionRequest(true);
+
+		if ($mIsException !== false) {
+			$aClause = array(
+				self::$aAuthConfig['exceptions'][$mIsException]['column_name'] . ' = ?' => Kwgl_Utility_Mvc::getParameter(self::$aAuthConfig['exceptions'][$mIsException]['token_name']),
+			);
+		}
+
+		return $aClause;
+	}
+
+	/**
 	 * Sets Authentication Configuration from the ini.
 	 * Should be called from the Bootstrap.
 	 *
 	 * @param array|object|string $mConfig
+	 * @return void
 	 * @throws Exception
 	 */
 	public static function setAuthConfig ($mConfig) {
@@ -359,6 +383,8 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
 
 	/**
 	 * Initialises the Dao Class to be used to Store the Session
+	 *
+	 * @return void
 	 */
 	private function initDaoAuthStorage () {
 
@@ -367,7 +393,7 @@ class Kwgl_Auth_Storage_Db implements Zend_Auth_Storage_Interface {
 		} else {
 			$sSessionTableClass = 'System_Session';
 		}
-		$this->_oDaoAuthStorage = Kwgl_Db_Table::factory($sSessionTableClass);
+		self::$_oDaoAuthStorage = Kwgl_Db_Table::factory($sSessionTableClass);
 
 	}
 

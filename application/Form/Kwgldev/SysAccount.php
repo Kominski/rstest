@@ -11,27 +11,27 @@ class Form_Kwgldev_SysAccount extends Form_Kwgldev_Base {
 
 		$oUsername = new Zend_Form_Element_Text('textUsername');
 		$oUsername->setLabel('Username')
-			->setAttrib('class', 'cSpan04');
+			->setAttrib('class', 'span4');
 
 		$oPassword = new Zend_Form_Element_Password('passwordPassword');
 		$oPassword->setLabel('Password')
-			->setAttrib('class', 'cSpan04');
+			->setAttrib('class', 'span4');
 
 		$oPasswordConfirmation = new Zend_Form_Element_Password('passwordPasswordConfirmation');
 		$oPasswordConfirmation->setLabel('Confirm Password')
-			->setAttrib('class', 'cSpan04');
+			->setAttrib('class', 'span4');
 
 		$oPasswordCurrent = new Zend_Form_Element_Password('passwordPasswordCurrent');
 		$oPasswordCurrent->setLabel('Password')
-			->setAttrib('class', 'cSpan04');
+			->setAttrib('class', 'span4');
 
 		$oEmail = new Zend_Form_Element_Text('textEmail');
 		$oEmail->setLabel('Email')
-			->setAttrib('class', 'cSpan04');
+			->setAttrib('class', 'span4');
 
 		$oRole = new Zend_Form_Element_Select('selectRole');
 		$oRole->setLabel('Role')
-			->setAttrib('class', 'cSpan04 cTextCapitalise');
+			->setAttrib('class', 'span4 cTextCapitalise');
 
 		$oSubmit = new Zend_Form_Element_Submit('submitSubmit');
 		$oSubmit->setLabel('Submit')
@@ -42,7 +42,7 @@ class Form_Kwgldev_SysAccount extends Form_Kwgldev_Base {
 				$oUsername->setRequired();
 				$oPassword->setRequired();
 				$oSubmit->setLabel('Login to Dev')
-						->setAttrib('class', 'cButton cButtonPrimary');
+						->setAttrib('class', 'btn btn-primary');
 				$this->addElements(array($oUsername, $oPassword, $oSubmit));
 				break;
 			case self::CONTEXT_CHANGE_PASSWORD:
@@ -58,7 +58,7 @@ class Form_Kwgldev_SysAccount extends Form_Kwgldev_Base {
 					->addValidator('VerifyCurrentPassword', true, array('table' => Kwgl_Db_Table::name()->System_Account, 'field' => 'password', 'messages' => array(Zend_Validate_Db_RecordExists::ERROR_NO_RECORD_FOUND => 'Current Password is incorrect')))
 					->setDecorators(array('ViewHelper'));
 				$oSubmit->setLabel('Change Password')
-						->setAttrib('class', 'cButton cButtonPrimary');
+						->setAttrib('class', ' btn btn-primary');
 				$this->addElements(array($oPasswordCurrent, $oPassword, $oPasswordConfirmation, $oSubmit));
 				break;
 			case self::CONTEXT_CREATE:
@@ -73,7 +73,7 @@ class Form_Kwgldev_SysAccount extends Form_Kwgldev_Base {
 				$oPasswordConfirmation->setRequired()
 					->addValidator('Identical', true, array('token' => 'passwordPassword', 'messages' => array(Zend_Validate_Identical::NOT_SAME => 'The Passwords are not the same', Zend_Validate_Identical::MISSING_TOKEN => 'Password to compare with not provided')));
 				$oSubmit->setLabel('Create Account')
-					->setAttrib('class', 'cButton cButtonSuccess');
+					->setAttrib('class', ' btn  btn-success');
 				$this->addElements(array($oRole, $oEmail, $oUsername, $oPassword, $oPasswordConfirmation, $oSubmit));
 				break;
 			case self::CONTEXT_UPDATE:
@@ -87,7 +87,7 @@ class Form_Kwgldev_SysAccount extends Form_Kwgldev_Base {
 					->addValidator('Db_NoRecordExists', true, array('table' => Kwgl_Db_Table::name()->System_Account, 'field' => 'username', 'exclude' => $aClause));
 				$oPasswordConfirmation->addValidator('Identical', true, array('token' => 'passwordPassword', 'messages' => array(Zend_Validate_Identical::NOT_SAME => 'The Passwords are not the same', Zend_Validate_Identical::MISSING_TOKEN => 'Password to compare with not provided')));
 				$oSubmit->setLabel('Update Account')
-					->setAttrib('class', 'cButton cButtonSuccess');
+					->setAttrib('class', ' btn  btn-success');
 				$this->addElements(array($oRole, $oEmail, $oUsername, $oPassword, $oPasswordConfirmation, $oSubmit));
 				break;
 			case self::CONTEXT_DELETE:
@@ -96,12 +96,10 @@ class Form_Kwgldev_SysAccount extends Form_Kwgldev_Base {
 				$oEmail->setAttrib('readonly', true);
 				$oUsername->setAttrib('readonly', true);
 				$oSubmit->setLabel('Delete Account')
-					->setAttrib('class', 'cButton cButtonDanger');
+					->setAttrib('class', ' btn  btn-danger');
 				$this->addElements(array($oRole, $oEmail, $oUsername, $oSubmit));
 				break;
 		}
-
-		$this->_sViewScript = '/forms/partials/generic_twocolumn.phtml';
 
 		$this->setDecorators(array(array('ViewScript', array('viewScript' => $this->_sViewScript))));
 

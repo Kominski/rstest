@@ -2,7 +2,7 @@
 /**
  * Handles locale & translation functionalities
  *
- * @author Darshan <>
+ * @author Darshan Wijekoon <darshanchaturanga@gmail.com>
  * @category PHP-Kwgl
  * @package Kwgl_Language
  */

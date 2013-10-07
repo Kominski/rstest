@@ -3,34 +3,34 @@
 	width: 950px;
 	margin: auto;
 }
-.cGrid-01,
-.cGrid-02,
-.cGrid-03,
-.cGrid-04,
-.cGrid-05,
-.cGrid-06,
-.cGrid-07,
-.cGrid-08,
-.cGrid-09,
-.cGrid-10,
-.cGrid-11,
-.cGrid-12,
-.cGrid-13,
-.cGrid-14,
-.cGrid-15,
-.cGrid-16,
-.cGrid-17,
-.cGrid-18,
-.cGrid-19,
-.cGrid-20,
-.cGrid-21,
-.cGrid-22,
-.cGrid-23,
-.cGrid-24 {
+.cContainer-24 .cGrid-01,
+.cContainer-24 .cGrid-02,
+.cContainer-24 .cGrid-03,
+.cContainer-24 .cGrid-04,
+.cContainer-24 .cGrid-05,
+.cContainer-24 .cGrid-06,
+.cContainer-24 .cGrid-07,
+.cContainer-24 .cGrid-08,
+.cContainer-24 .cGrid-09,
+.cContainer-24 .cGrid-10,
+.cContainer-24 .cGrid-11,
+.cContainer-24 .cGrid-12,
+.cContainer-24 .cGrid-13,
+.cContainer-24 .cGrid-14,
+.cContainer-24 .cGrid-15,
+.cContainer-24 .cGrid-16,
+.cContainer-24 .cGrid-17,
+.cContainer-24 .cGrid-18,
+.cContainer-24 .cGrid-19,
+.cContainer-24 .cGrid-20,
+.cContainer-24 .cGrid-21,
+.cContainer-24 .cGrid-22,
+.cContainer-24 .cGrid-23,
+.cContainer-24 .cGrid-24 {
 	float: left;
-	margin-right: 20px;
+	margin-right: 10px;
 }
-.cLast {
+.cContainer-24 .cLast {
 	margin-right: 0;
 }
 .cContainer-24 .cGrid-01 {
@@ -43,65 +43,65 @@
 	width: 110px;
 }
 .cContainer-24 .cGrid-04 {
-	width: 140px;
+	width: 150px;
 }
 .cContainer-24 .cGrid-05 {
-	width: 180px;
+	width: 190px;
 }
 .cContainer-24 .cGrid-06 {
-	width: 220px;
+	width: 230px;
 }
 .cContainer-24 .cGrid-07 {
-	width: 260px;
+	width: 270px;
 }
 .cContainer-24 .cGrid-08 {
-	width: 300px;
+	width: 310px;
 }
 .cContainer-24 .cGrid-09 {
-	width: 340px;
+	width: 350px;
 }
 .cContainer-24 .cGrid-10 {
-	width: 380px;
+	width: 390px;
 }
 .cContainer-24 .cGrid-11 {
-	width: 420px;
+	width: 430px;
 }
 .cContainer-24 .cGrid-12 {
-	width: 460px;
+	width: 470px;
 }
 .cContainer-24 .cGrid-13 {
-	width: 500px;
+	width: 510px;
 }
 .cContainer-24 .cGrid-14 {
-	width: 540px;
+	width: 550px;
 }
 .cContainer-24 .cGrid-15 {
-	width: 580px;
+	width: 590px;
 }
 .cContainer-24 .cGrid-16 {
-	width: 620px;
+	width: 630px;
 }
 .cContainer-24 .cGrid-17 {
-	width: 660px;
+	width: 670px;
 }
 .cContainer-24 .cGrid-18 {
-	width: 700px;
+	width: 710px;
 }
 .cContainer-24 .cGrid-19 {
-	width: 740px;
+	width: 750px;
 }
 .cContainer-24 .cGrid-20 {
-	width: 780px;
+	width: 790px;
 }
 .cContainer-24 .cGrid-21 {
-	width: 820px;
+	width: 830px;
 }
 .cContainer-24 .cGrid-22 {
-	width: 860px;
+	width: 870px;
 }
 .cContainer-24 .cGrid-23 {
-	width: 900px;
+	width: 910px;
 }
 .cContainer-24 .cGrid-24 {
-	width: 940px;
+	width: 950px;
 }

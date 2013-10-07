@@ -27,17 +27,6 @@ $aJsPlugins = array(
 		'views'					=> '//js/library/jsviews/jquery.views.js',
 	),
 );
-
-$aJsMain = array(
-	'jq-mobi-dist'		=>	'//js/library/jqmobi/jq.mobi.dist.js',
-	'jq-mobi-init'		=>	'//js/library/jqmobi/jq.mobi.init.js',
-	'jq-mobi-scroller'	=>	'//js/library/jqmobi/plugins/jq.scroller.js',
-	'jquery'			=>	'//js/library/jquery-1.7.2.min.js',
-	'jquery-ui'			=>	'//js/library/jquery-ui-1.8.21.custom.min.js',
-	'jquery-ui-touch'	=>	'//js/library/jquery.ui.touch-punch.min.js',
-	'qtip'				=>	'//js/library/jquery.qtip.min.js',
-	'default'			=>	'//js/default/default.js',
-);
 $aCssBase = array(
 	'reset'						=> '//css/_base/reset.css',
 	'baseGrid-12'				=> '//css/_base/grid-12.css',
@@ -53,28 +42,17 @@ $aCssLibrary = array(
 	'bootstrap'					=> '//css/library/bootstrap/bootstrap.css',
 );
 
-$aCssMain = array(
-	'jq-ui'					=>	'//css/library/jqmobi/jq.ui.css',
-	'qtip'					=>	'//css/library/jquery.qtip.min.css',
-	'jquery-ui-override'	=>	'//css/default/jquery.ui.override.css',
-	'ui-override'			=>	'//css/default/ui_override.css',
-	'default'				=>	'//css/default/default.css',
-);
 return array(
 
 	'jsCore'		=> $aJsLibrary,
 	'jsViews'		=> $aJsPlugins['jsViews'],
 
-	'jsMain'		=> $aJsMain,
-
 	'cssBase'		=> $aCssBase,
-
-	'cssMain'		=> $aCssMain,
 
 //	'cssBaseWithBootstrap' => array_merge($aCssBase, ),
 
 	//default module
 	'jsExamples'	=> array('//js/default/ajax-example.js'),
-//	'cssMain'		=> array($aCssLibrary['jqueryUi'], '//css/default/ui_extender.css', '//css/default/js-examples.css')
+	'cssMain'		=> array($aCssLibrary['jqueryUi'], '//css/default/ui_extender.css', '//css/default/js-examples.css')
 
 );

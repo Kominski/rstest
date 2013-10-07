@@ -2,7 +2,7 @@
 /**
  * Benchmarking functionality using PEAR Benchmark Timer
  *
- * @author Jayawi Perera jayawiperera@gmail.com
+ * @author Jayawi Perera <jayawiperera@gmail.com>
  * @category PHP-Kwgl
  * @package Kwgl_Benchmark
  */
@@ -12,7 +12,7 @@ class Kwgl_Benchmark {
 	 *
 	 * @var boolean
 	 */
-	public static $bOn;
+	public static $bOn = false;
 
 	/**
 	 *
@@ -36,6 +36,10 @@ class Kwgl_Benchmark {
 	 * @param boolean $bCheckConfig
 	 */
 	public static function initialise($bAutoStart = true, $bCheckConfig = true) {
+
+		if (self::$bOn) {
+			return;
+		}
 
 		$bStartBenchmark = false;
 

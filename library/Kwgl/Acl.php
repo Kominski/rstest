@@ -1,6 +1,9 @@
 <?php
 /**
- * ACL Handler (stored via database)
+ * ACL Handler
+ *
+ * ACL Configuration is stored in the Database. This class retrieves the data
+ * (from Cache if configured to) and sets up Zend_Acl for later use.
  *
  * @author Jayawi Perera <jayawiperera@gmail.com>
  * @category PHP-Kwgl
@@ -16,11 +19,22 @@ class Kwgl_Acl extends Zend_Acl {
 	 */
 	protected static $_oInstance = null;
 
+	/**
+	 * Static ACL Cache Usage Flag
+	 *
+	 * @var boolean
+	 */
+	protected static $_bUseCache = false;
+
 	const PERMISSION_TYPE_ALLOW = 'allow';
 	const PERMISSION_TYPE_DENY = 'deny';
 
 	const RESOURCE_TYPE_PAGE = 'page';
 	const RESOURCE_TYPE_MODEL = 'model';
+
+	const CACHE_IDENTIFIER_ROLES = 'acl_roles';
+	const CACHE_IDENTIFIER_RESOURCES = 'acl_resources';
+	const CACHE_IDENTIFIER_PERMISSIONS = 'acl_permissions';
 
 	/**
 	 * Singleton pattern implementation makes new unavailable.
@@ -29,6 +43,9 @@ class Kwgl_Acl extends Zend_Acl {
 	 * @return void
 	 */
 	protected function __construct() {
+
+		self::$_bUseCache = (Kwgl_Config::get(array('mode', 'cache', 'acl')) == 1);
+
 		$this->_initRoles();
 		$this->_initResources();
 		$this->_initPermissions();
@@ -49,8 +66,8 @@ class Kwgl_Acl extends Zend_Acl {
 	/**
 	 * Wrapper for Zend_Acl's isAllowed method.
 	 *
-	 * <code>
 	 * Eg:
+	 * <code>
 	 * $bAllowed = Kwgl_Acl::allowed('guest', 'kwgldev');
 	 * </code>
 	 *
@@ -66,8 +83,8 @@ class Kwgl_Acl extends Zend_Acl {
 	/**
 	 * Special check of Page-type Resources (Module/Controller/Action). Attempts to degrade gracefully.
 	 *
-	 * <code>
 	 * Eg:
+	 * <code>
 	 * Kwgl_Acl::allowedForPage($sRole, $sModuleName, $sControllerName, $sActionName);
 	 * </code>
 	 *
@@ -80,8 +97,7 @@ class Kwgl_Acl extends Zend_Acl {
 	public static function allowedForPage ($sRole, $sModuleName, $sControllerName = null, $sActionName = null) {
 
 		// Exceptions
-		// Users should always have access to the Default Error Controller
-//		if ($sModuleName == 'default' && $sControllerName == 'error') {
+		// Users should always have access to the Error Controller in any module
 		if ($sControllerName == 'error') {
 			return true;
 		}
@@ -137,10 +153,32 @@ class Kwgl_Acl extends Zend_Acl {
 	 * @return void
 	 */
 	protected function _initRoles () {
-		// Get Roles from the Database
-		$oDaoRole = Kwgl_Db_Table::factory('System_Role'); /* @var $oDaoRole Dao_System_Role */
-		//$aRoleListing = $oDaoRole->fetchAll();
-		$aRoleListing = $oDaoRole->getRoles();
+
+		$bFreshData = false;
+
+		if (self::$_bUseCache) {
+			$oCacheManager = Kwgl_Cache::getManager();
+			$oAclCache = $oCacheManager->getCache('acl');
+
+			if (($aRoleListing = $oAclCache->load(self::CACHE_IDENTIFIER_ROLES)) === false) {
+				// Not Cached or Expired
+
+				$bFreshData = true;
+			}
+		} else {
+			$bFreshData = true;
+		}
+
+		if ($bFreshData) {
+			// Get Roles from the Database
+			$oDaoRole = Kwgl_Db_Table::factory('System_Role'); /* @var $oDaoRole Dao_System_Role */
+			//$aRoleListing = $oDaoRole->fetchAll();
+			$aRoleListing = $oDaoRole->getRoles();
+
+			if (self::$_bUseCache) {
+				$oAclCache->save($aRoleListing, self::CACHE_IDENTIFIER_ROLES);
+			}
+		}
 
 		foreach ($aRoleListing as $aRoleDetail) {
 			$sRoleName = $aRoleDetail['name'];
@@ -167,10 +205,32 @@ class Kwgl_Acl extends Zend_Acl {
 	 * @return void
 	 */
 	protected function _initResources () {
-		// Get Resources from the Database
-		$oDaoResource = Kwgl_Db_Table::factory('System_Resource'); /* @var $oDaoResource Dao_System_Resource */
-		//$aResourceListing = $oDaoResource->fetchAll();
-		$aResourceListing = $oDaoResource->getResources();
+
+		$bFreshData = false;
+
+		if (self::$_bUseCache) {
+			$oCacheManager = Kwgl_Cache::getManager();
+			$oAclCache = $oCacheManager->getCache('acl');
+
+			if (($aResourceListing = $oAclCache->load(self::CACHE_IDENTIFIER_RESOURCES)) === false) {
+				// Not Cached or Expired
+
+				$bFreshData = true;
+			}
+		} else {
+			$bFreshData = true;
+		}
+
+		if ($bFreshData) {
+			// Get Resources from the Database
+			$oDaoResource = Kwgl_Db_Table::factory('System_Resource'); /* @var $oDaoResource Dao_System_Resource */
+			//$aResourceListing = $oDaoResource->fetchAll();
+			$aResourceListing = $oDaoResource->getResources();
+
+			if (self::$_bUseCache) {
+				$oAclCache->save($aResourceListing, self::CACHE_IDENTIFIER_RESOURCES);
+			}
+		}
 
 		foreach ($aResourceListing as $aResourceDetail) {
 			$sResourceName = $aResourceDetail['name'];
@@ -200,10 +260,31 @@ class Kwgl_Acl extends Zend_Acl {
 	 */
 	protected function _initPermissions () {
 
-		// Get Privileges from the Database
-		$oDaoRoleResourcePrivilege = Kwgl_Db_Table::factory('System_Role_Resource_Privilege');
-		//$aPermissionListing = $oDaoRoleResource->fetchAll();
-		$aPermissionListing = $oDaoRoleResourcePrivilege->getPermissions();
+		$bFreshData = false;
+
+		if (self::$_bUseCache) {
+			$oCacheManager = Kwgl_Cache::getManager();
+			$oAclCache = $oCacheManager->getCache('acl');
+
+			if (($aPermissionListing = $oAclCache->load(self::CACHE_IDENTIFIER_PERMISSIONS)) === false) {
+				// Not Cached or Expired
+
+				$bFreshData = true;
+			}
+		} else {
+			$bFreshData = true;
+		}
+
+		if ($bFreshData) {
+			// Get Privileges from the Database
+			$oDaoRoleResourcePrivilege = Kwgl_Db_Table::factory('System_Role_Resource_Privilege');
+			//$aPermissionListing = $oDaoRoleResource->fetchAll();
+			$aPermissionListing = $oDaoRoleResourcePrivilege->getPermissions();
+
+			if (self::$_bUseCache) {
+				$oAclCache->save($aPermissionListing, self::CACHE_IDENTIFIER_PERMISSIONS);
+			}
+		}
 
 		foreach ($aPermissionListing as $aPermissionDetail) {
 			$sRoleName = $aPermissionDetail['role_name'];

@@ -3,7 +3,7 @@
  * Custom translate adapter for Zend_Translate,
  * Loads translation data from a database table
  *
- * @author Darshan Wijekoon <>
+ * @author Darshan Wijekoon <darshanchaturanga@gmail.com>
  */
 class Kwgl_Translate_Adapter_DbTable extends Zend_Translate_Adapter {
 

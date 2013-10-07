@@ -1,3 +1,21 @@
+/* Additional CSS Reset - Begin */
+a, a:visited {
+	text-decoration: none;
+}
+i, cite, em, var, address {
+	font-style: italic;
+}
+strong, b {
+	font-weight: bold;
+}
+tt, code, kbd, samp {
+	font-family: monospace;
+}
+a, a:visited, object {
+	outline: none;
+}
+/* Additional CSS Reset - End */
+
 /* Element Floating */
 .cFloatLeft {
 	float: left;

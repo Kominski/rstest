@@ -19,23 +19,23 @@ class Kwgldev_View_Helper_Response {
 				$sMessage = $aResponse['message'];
 				switch ($sStatus) {
 					case 'success':
-						$sResponseClass = 'cAlertSuccess';
+						$sResponseClass = 'alert-success';
 						break;
 					case 'error':
-						$sResponseClass = 'cAlertError';
+						$sResponseClass = 'alert-error';
 						break;
 					case 'warning':
-						$sResponseClass = 'cAlertWarning';
+						$sResponseClass = 'alert-warning';
 						break;
 					case 'information':
 					default:
-						$sResponseClass = 'cAlertInfo';
+						$sResponseClass = 'alert-info';
 						break;
 				}
 
-				$sContent .= '<div class="cAlert ' . $sResponseClass . '">';
+				$sContent .= '<div class="alert ' . $sResponseClass . '">';
 				if ($bShowCloseButton) {
-					$sContent .= '<button class="cClose" data-dismiss="alert">×</button>';
+					$sContent .= '<button class="close" data-dismiss="alert">×</button>';
 				}
 				$sContent .= $sMessage . '</div>';
 			}

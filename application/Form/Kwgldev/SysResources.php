@@ -57,14 +57,14 @@ class Form_Kwgldev_SysResources extends Form_Kwgldev_Base {
 				$oResourceName->setAttrib('readonly', true);
 				$oResourceName->setRequired();
 				$oSubmit->setLabel('Create')
-						->setAttrib('class', 'cButton cButtonSuccess');
+						->setAttrib('class', 'btn btn-success');
 				$this->addElements($aPageCreateElements);
 				break;
 			case self::CONTEXT_PAGE_DELETE:
 				$oResourceName->setAttrib('readonly', true);
 				$oResourceName->setAttrib('disable', true);
 				$oSubmit->setLabel('Delete')
-						->setAttrib('class', 'cButton cButtonDanger');
+						->setAttrib('class', 'btn btn-danger');
 				$this->addElements($aPageDeleteElements);
 				break;
 			case self::CONTEXT_MODEL_CREATE:
@@ -72,7 +72,7 @@ class Form_Kwgldev_SysResources extends Form_Kwgldev_Base {
 					->addValidator('Db_NoRecordExists', true, array('table' => 'sys_resource', 'field' => 'name'));
 				$oResourceParent->setMultiOptions($this->_getResourceParentsForModels());
 				$oSubmit->setLabel('Create')
-						->setAttrib('class', 'cButton cButtonSuccess');
+						->setAttrib('class', 'btn btn-success');
 				$this->addElements($aModelCreateElements);
 				break;
 			case self::CONTEXT_MODEL_UPDATE:
@@ -81,7 +81,7 @@ class Form_Kwgldev_SysResources extends Form_Kwgldev_Base {
 					->addValidator('Db_NoRecordExists', true, array('table' => 'sys_resource', 'field' => 'name', 'exclude' => $aClause));
 				$oResourceParent->setMultiOptions($this->_getResourceParentsForModels($this->_aParameters['resource_id']));
 				$oSubmit->setLabel('Update')
-						->setAttrib('class', 'cButton cButtonSuccess');
+						->setAttrib('class', 'btn btn-success');
 				$this->addElements($aModelUpdateElements);
 				break;
 			case self::CONTEXT_MODEL_DELETE:
@@ -90,12 +90,10 @@ class Form_Kwgldev_SysResources extends Form_Kwgldev_Base {
 				$oResourceParent->setAttrib('readonly', true);
 				$oResourceParent->setAttrib('disable', true);
 				$oSubmit->setLabel('Delete')
-						->setAttrib('class', 'cButton cButtonDanger');
+						->setAttrib('class', 'btn btn-danger');
 				$this->addElements($aModelDeleteElements);
 				break;
 		}
-
-		$this->_sViewScript = '/forms/partials/generic_twocolumn.phtml';
 
 		$this->setDecorators(array(array('ViewScript', array('viewScript' => $this->_sViewScript))));
 

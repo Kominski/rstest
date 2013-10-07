@@ -9,6 +9,8 @@ class Kwgl_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
 
 	public function routeShutdown (Zend_Controller_Request_Abstract $oRequest) {
 
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_ErrorHandler - routeShutdown - Start');
+
 		$oFrontController = Zend_Controller_Front::getInstance();
 
 		// Use Module Specific Error Controller if they are available
@@ -26,6 +28,8 @@ class Kwgl_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
 			}
 
 		}
+
+		//Kwgl_Benchmark::setMarker('Kwgl_Controller_Plugin_ErrorHandler - routeShutdown - End');
 
 	}
 
