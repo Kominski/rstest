@@ -18,7 +18,8 @@ $aJsLibrary = array(
 	'kwglForm'					=> '//js/library/kwgl/form.js',
 	'kwglPagination'			=> '//js/library/kwgl/pagination.js',
 	'kwglTranslate'				=> '//js/library/kwgl/translate.js',
-	'kwglUtility'				=> '//js/library/kwgl/utilities.js'
+	'kwglUtility'				=> '//js/library/kwgl/utilities.js',
+    'bootstrap'                 =>  '//js/library/bootstrap.min.js'
 );
 $aJsPlugins = array(
 	'jsViews' => array(
@@ -38,8 +39,9 @@ $aCssBase = array(
 );
 $aCssLibrary = array(
 //	'jqueryUi'					=> '//css/library/jquery-ui-1.8.16.custom.css',
-	'jqueryUi'					=> '//css/library/jquery-ui-1.8.20.custom.css',
+//	'jqueryUi'					=> '//css/library/jquery-ui-1.8.20.custom.css',
 	'bootstrap'					=> '//css/library/bootstrap/bootstrap.css',
+	'style'					=> '//css/default/style.css',
 );
 
 return array(
@@ -47,7 +49,7 @@ return array(
 	'jsCore'		=> $aJsLibrary,
 	'jsViews'		=> $aJsPlugins['jsViews'],
 
-	'cssBase'		=> $aCssBase,
+	'cssBase'		=> $aCssLibrary,
 
 //	'cssBaseWithBootstrap' => array_merge($aCssBase, ),
 
